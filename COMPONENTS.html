@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Urok 10 </title>
+<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+
+
+<style>
+table{
+ cell-padding:20px;
+}
+
+td, th{
+	border: 1px solid black;
+	background-color: lavenderblush;
+	padding: 20px;
+}
+
+a{
+	text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+<div id="content"></div>
+
+
+<script type="text/babel">
+
+//task 1-5
+/*
+class User extends React.Component {
+	constructor() {
+		super();
+	}
+
+	render() {
+		return 	 <tr> 
+					<td>{this.props.name}</td>	
+					<td>{this.props.surname}</td>	
+					<td>{this.props.age}</td>
+					<td>
+						<a href='#'	onClick={this.props.showMessage}>
+							showMessage!
+						</a>
+					</td>
+					<td>
+						<a href='#'	onClick = {this.props.showName.bind(null,this.props.name)}>
+							showName
+						</a>
+					</td>
+					<td>
+						<a href='#'	onClick = {this.props.showName.bind(null,this.props.num)}>
+							showNum
+						</a>
+					</td>	
+					<td>
+						<a href='#'	onClick={this.props.deleteUser.bind(null,this.props.num-1)}>
+							delete
+						</a>
+					</td>
+				 </tr>;
+		
+	}
+}
+
+class App extends React.Component {
+	constructor() {
+		super();
+
+		this.state = {
+			users: [
+				{name: 'Коля', surname: 'Иванов', age:'55'},
+				{name: 'Вася', surname: 'Петров', age:'95'},
+				{name: 'Петя', surname: 'Сидоров', age:'65'},
+			]
+		};
+	}
+
+	showMessage(){
+		alert('!');
+	}
+
+	showNum(num){
+		alert(num);
+	}
+	
+	showName(name){
+		alert(name);
+	}
+	
+	deleteUser(index){
+		this.state.users.splice(index,1);
+		this.setState({users:this.state.users});
+		
+	}
+	
+	render() {
+		const users = this.state.users.map((item, index) => {
+			return <User
+				key={index}
+				name={item.name}
+				surname={item.surname}
+				age={item.age}
+				
+				showMessage={this.showMessage.bind(this)}
+				
+				showName = {this.showName.bind(this)}
+				
+				showNum = {this.showNum.bind(this)}
+				
+				deleteUser={this.deleteUser.bind(this)}
+				num={index+1}
+				
+			/>;
+		});
+
+		return <table>
+				<tbody>
+					<tr> 
+						<th>имя</th>
+						<th>фамилия</th>
+						<th>возраст</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				{users}
+				</tbody>
+			</table>;
+	}
+}
+
+ReactDOM.render(<App/>,document.getElementById('content'));
+*/
+
+//task6
+/*
+class User extends React.Component {
+	constructor() {
+		super();
+	}
+
+	render() {
+		return 	<li>{this.props.name} 
+					<input 
+						hidden = {!this.props.hidden}
+						onBlur = {this.props.editUser.bind(null, this.props.index)}
+					/>
+					<a href = '#' 
+						onClick = {this.props.handleRefClick.bind(null, this.props.index)}
+						hidden = {this.props.hidden}> Редактировать
+					</a>
+				</li>;
+		
+	}
+}
+
+class App extends React.Component {
+	constructor() {
+		super();
+
+		this.state = {
+			users: [
+				{name: 'Коля', hidden:false},
+				{name: 'Вася', hidden:false},
+				{name: 'Петя', hidden:false},
+			]
+		};
+	}
+	
+	handleRefClick(index){
+		console.log(index);
+		this.state.users[index].hidden = !this.state.users[index].hidden;
+		
+		this.setState({users:this.state.users});
+		console.log(this.state.users);
+	}
+	
+	editUser(index, event){
+		this.state.users[index].hidden = !this.state.users[index].hidden;
+		this.state.users[index].name = event.target.value;
+		this.setState({users:this.state.users});
+	}
+
+	render() {
+		const users = this.state.users.map((item, index) => {
+			return <User
+						key = {index}
+						index = {index}
+						name = {item.name}
+						hidden = {item.hidden}
+						handleRefClick = {this.handleRefClick.bind(this)}
+						editUser = {this.editUser.bind(this)}
+					/>;
+		});
+
+		return <ul>
+			{users}
+		</ul>;
+	}
+}
+
+ReactDOM.render(<App/>,document.getElementById('content'));
+*/
+//task 7-9
+/*Пусть в стейте хранится массив с продуктами. У каждого продукта есть название,
+цена и количество. Выведите все продукты на экран в виде таблицы. 
+Сделайте так, чтобы в таблице была колонка, в которой выводится 
+полная стоимость продукта (цена умножить на количество). 
+Пусть отображением продукта на экран занимается отдельный компонент. 
+Сделайте так, чтобы рядом с каждым продуктом была кнопка 'удалить', 
+с помощью которой можно удалить этот продукт из таблицы.
+
+8. Модифицируйте предыдущую задачу так, чтобы появился еще и один отдельный 
+компонент для добавления нового продукта в таблицу.
+
+9. Модифицируйте предыдущую задачу так, чтобы под таблицей появился еще и один 
+отдельный компонент, в котором будет выведена полная стоимость всех продуктов.
+
+10. Модифицируйте предыдущую задачу так, чтобы в таблице появилась еще одна колонка, 
+в которой будут находиться чекбоксы. Изначально эти чекбоксы отмечены. Сделайте так, 
+чтобы полная стоимость всех продуктов выводилась только для тех продуктов, у которых чекбокс отмечен.
+*/
+
+class TotalPrice extends React.Component
+{
+	constructor(){
+		super();
+	}
+	
+	render(){
+		return  <div>
+					Полная стоимость: {this.props.totalPrice}
+				</div>
+	}
+}
+
+class AddProduct extends React.Component
+{
+	constructor(){
+		super();
+	}
+	
+	render(){
+		return  <form 	onSubmit = {this.props.addProduct.bind(null,event)} 
+						onChange = {this.props.changeInputHandler.bind(null)}>
+						<input name = 'name' placeholder = 'название товара'/>
+						<input name = 'price' placeholder = 'цена'/>
+						<input name = 'quantity' placeholder = 'количество'/>
+						<input type = 'submit' value = 'добавить'/>
+				</form>
+	}
+}
+
+class Product extends React.Component
+{
+	constructor(){
+		super();
+	}
+	
+	render(){
+		return  <tr>
+					<td>{this.props.name}</td>
+					<td>{this.props.price}</td>
+					<td>{this.props.quantity}</td>
+					<td>{this.props.quantity * this.props.price}</td>
+					<td>
+						<input  type = 'checkbox' 
+								onChange = {this.props.checkChangeHandler.bind(null, this.props.index)} 
+								checked = {this.props.checked}/>
+					</td>
+					<td onClick = {this.props.delProduct.bind(null, this.props.index)}> удалить </td>
+				</tr>
+	}
+}
+
+class App extends React.Component
+{
+	constructor(){
+		super();
+		this.state = {products: [	{name: 'product1', price : '100', quantity : '3', checked : true},
+									{name: 'product2', price : '400', quantity : '34', checked : true},
+									{name: 'product3', price : '700', quantity : '67', checked : true}],
+						name:'',
+						price:'',
+						quantity:''
+						};
+	}
+	
+	delProduct(index){
+		this.state.products.splice(index, 1);
+		this.setState({products : this.state.products});
+	}
+	
+	addProduct(index, event){
+		event.preventDefault();
+		this.state.products.push({  name: this.state.name, 
+									price : this.state.price, 
+									quantity : this.state.quantity});
+		this.setState({products : this.state.products});
+		console.log(this.state);
+	}
+	
+	changeInputHandler(event){
+			console.log(event.target.name);
+			
+			let obj = {};
+			obj[event.target.name] = event.target.value
+			this.setState(obj);
+	}
+	
+	checkChangeHandler(index){
+		this.state.products[index].checked = !this.state.products[index].checked;
+		this.setState({products : this.state.products});
+	}
+	
+	render(){
+		
+		const products = this.state.products.map((product, index) => {
+			const totalPrice = product.price*product.quantity;
+			return <Product key = {index}
+							index = {index}
+							name = {product.name}
+							price = {product.price}
+							quantity = {product.quantity}
+							delProduct = {this.delProduct.bind(this)}
+							checkChangeHandler = {this.checkChangeHandler.bind(this)}
+							checked = {product.checked}
+							/>
+		});
+		
+		let totalPrice = 0;
+		for(let product of this.state.products)
+		{
+			if(product.checked)
+				totalPrice += +product.price * product.quantity;
+		}
+			
+		
+		return <div>
+					<table>
+						<tbody>
+							<tr>
+								<th>Товар</th>
+								<th>Цена</th>
+								<th>Количество</th>
+								<th>Полная стоимость</th>
+								<th></th>
+								<th></th>
+							</tr>
+							{products}
+							
+						</tbody>
+					</table>
+					<AddProduct 
+						addProduct = {this.addProduct.bind(this)}
+						changeInputHandler = {this.changeInputHandler.bind(this)}
+					/>
+					
+					<TotalPrice totalPrice = {totalPrice}/>
+				</div>
+	}
+}
+
+ReactDOM.render(<App/>, document.getElementById('content'));
+</script>
+
+</body>
+</html>
+	
